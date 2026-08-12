@@ -1,0 +1,21 @@
+{
+  "name": "los-4-pilares-de-la-poo-getters-y-setters",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "ej1": "tsx ej1.ts",
+    "ej2": "tsx ej2.ts",
+    "ej3": "tsx ej3.ts",
+    "ej4": "tsx ej4.ts",
+    "ej5": "tsx ej5.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^22.5.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.5.4"
+  }
+}
