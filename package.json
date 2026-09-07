@@ -3,12 +3,13 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "ej1": "tsx ej1.ts",
-    "ej2": "tsx ej2.ts",
-    "ej3": "tsx ej3.ts",
-    "ej4": "tsx ej4.ts",
-    "ej5": "tsx ej5.ts"
+    "ej1": "node ej1.ts",
+    "ej2": "node ej2.ts",
+    "ej3": "node ej3.ts",
+    "ej4": "node ej4.ts",
+    "ej5": "node ej5.ts"
   },
   "keywords": [],
   "author": "",

@@ -1,4 +1,4 @@
-import { Empleado, EmpleadoFijo } from "./ej3";
+import { Empleado, EmpleadoFijo } from "./ej3.ts";
 
 class EmpleadoPorHoras extends Empleado {
   private horasTrabajadas: number;
