@@ -1,3 +1,5 @@
+import { pathToFileURL } from "node:url";
+
 export class Empleado {
   protected nombre: string;
   protected antiguedad: number;
@@ -30,10 +32,12 @@ export class EmpleadoFijo extends Empleado {
   }
 }
 
-// Bloque de prueba
-console.log("--- Pruebas Ejercicio 3 ---");
-const empFijo1 = new EmpleadoFijo("Juan", 3, 50000);
-const empFijo2 = new EmpleadoFijo("María", 10, 60000);
+// Bloque de prueba (solo se ejecuta al correr este archivo directamente, no al importarlo desde ej4.ts)
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  console.log("--- Pruebas Ejercicio 3 ---");
+  const empFijo1 = new EmpleadoFijo("Juan", 3, 50000);
+  const empFijo2 = new EmpleadoFijo("María", 10, 60000);
 
-console.log(empFijo1.describir());
-console.log(empFijo2.describir());
+  console.log(empFijo1.describir());
+  console.log(empFijo2.describir());
+}
