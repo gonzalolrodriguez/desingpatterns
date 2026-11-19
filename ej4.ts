@@ -1,25 +1,27 @@
-interface IInventario {
+interface Equipo {
+  nombre: string;
+  tipo: string;
+  estado: string;
+}
+
+interface Inventario {
   agregarEquipo(nombre: string, tipo: string, estado: string): void;
-  listarEquipos(): any[];
+  listarEquipos(): Equipo[];
 }
 
 class InventarioViejo {
-  private items: { nombre: string; tipo: string; estado: string }[] = [];
+  private items: Equipo[] = [];
 
-  public agregarItem(item: {
-    nombre: string;
-    tipo: string;
-    estado: string;
-  }): void {
+  public agregarItem(item: Equipo): void {
     this.items.push(item);
   }
 
-  public obtenerItems(): { nombre: string; tipo: string; estado: string }[] {
+  public obtenerItems(): Equipo[] {
     return this.items;
   }
 }
 
-class AdaptadorInventario implements IInventario {
+class AdaptadorInventario implements Inventario {
   private inventarioViejo: InventarioViejo;
 
   constructor(inventarioViejo: InventarioViejo) {
@@ -32,7 +34,7 @@ class AdaptadorInventario implements IInventario {
   }
 
   // Mapea la llamada de listar equipos
-  public listarEquipos(): any[] {
+  public listarEquipos(): Equipo[] {
     return this.inventarioViejo.obtenerItems();
   }
 }
