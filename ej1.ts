@@ -19,12 +19,16 @@ class Producto {
     return this.stock >= cantidad;
   }
 
+  // Se lanza un Error en lugar de mostrar un mensaje porque una venta fallida
+  // no debe pasar desapercibida: quien llama al método decide cómo manejarla.
   venderUnidades(cantidad: number): void {
+    if (cantidad <= 0) {
+      throw new Error("La cantidad a vender debe ser mayor que 0.");
+    }
     if (this.hayStock(cantidad)) {
       this.stock -= cantidad;
       console.log(`Venta realizada exitosamente: se vendieron ${cantidad} unidades de ${this.nombre}.`);
     } else {
-     
       throw new Error(`Error de stock: No hay suficientes unidades de '${this.nombre}' para realizar la venta (solicitado: ${cantidad}, disponible: ${this.stock}).`);
     }
   }
@@ -52,6 +56,13 @@ console.log("Descripción después de la venta:", prod.describir());
 try {
   console.log("Intentando vender 10 unidades (debe fallar)...");
   prod.venderUnidades(10);
+} catch (e: any) {
+  console.log("Capturado esperado:", e.message);
+}
+
+try {
+  console.log("Intentando vender -3 unidades (debe fallar)...");
+  prod.venderUnidades(-3);
 } catch (e: any) {
   console.log("Capturado esperado:", e.message);
 }
