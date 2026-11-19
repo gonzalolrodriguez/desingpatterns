@@ -1,43 +1,53 @@
-import { pathToFileURL } from "node:url";
+interface Observador {
+  notificar(nombreEquipo: string, estado: string): void;
+}
 
-export class Empleado {
-  protected nombre: string;
-  protected antiguedad: number;
+// Observador concreto
+class Soporte implements Observador {
+  public notificar(nombreEquipo: string, estado: string): void {
+    console.log(
+      `Soporte notificado: ${nombreEquipo} ha cambiado su estado a ${estado}.`,
+    );
+  }
+}
 
-  constructor(nombre: string, antiguedad: number) {
+class Equipo {
+  private nombre: string;
+  private tipo: string;
+  private estado: string;
+
+  private observadores: Observador[] = [];
+
+  constructor(nombre: string, tipo: string, estado: string) {
     this.nombre = nombre;
-    this.antiguedad = antiguedad;
+    this.tipo = tipo;
+    this.estado = estado;
   }
 
-  calcularSueldo(): number {
-    return 0;
+  public agregarObservador(observador: Observador): void {
+    this.observadores.push(observador);
   }
 
-  describir(): string {
-    return `${this.nombre} (${this.antiguedad} años) — sueldo: $${this.calcularSueldo()}`;
+  public eliminarObservador(observador: Observador): void {
+    this.observadores = this.observadores.filter((obs) => obs !== observador);
+  }
+
+  public cambiarEstado(nuevoEstado: string): void {
+    this.estado = nuevoEstado;
+    this.notificarObservadores();
+  }
+
+  // Notificamos a todos los observadores registrados
+  private notificarObservadores(): void {
+    for (const observador of this.observadores) {
+      observador.notificar(this.nombre, this.estado);
+    }
   }
 }
 
-export class EmpleadoFijo extends Empleado {
-  private sueldoBase: number;
+const soporte = new Soporte();
+const equipo = new Equipo("Notebook HP", "Portátil", "disponible");
+equipo.agregarObservador(soporte);
+equipo.cambiarEstado("en reparación");
 
-  constructor(nombre: string, antiguedad: number, sueldoBase: number) {
-    super(nombre, antiguedad);
-    this.sueldoBase = sueldoBase;
-  }
-
-  calcularSueldo(): number {
-    const bonoAntiguedad = this.sueldoBase * 0.02 * this.antiguedad;
-    return this.sueldoBase + bonoAntiguedad;
-  }
-}
-
-// Bloque de prueba (solo se ejecuta al correr este archivo directamente, no al importarlo desde ej4.ts)
-if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
-  console.log("--- Pruebas Ejercicio 3 ---");
-  const empFijo1 = new EmpleadoFijo("Juan", 3, 50000);
-  const empFijo2 = new EmpleadoFijo("María", 10, 60000);
-
-  console.log(empFijo1.describir());
-  console.log(empFijo2.describir());
-}
+export {};

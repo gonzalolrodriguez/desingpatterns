@@ -1,5 +1,5 @@
 {
-  "name": "los-4-pilares-de-la-poo-getters-y-setters",
+  "name": "actividad-de-patrones",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -12,10 +12,9 @@
     "ej5": "node ej5.ts"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
   "devDependencies": {
-    "@types/node": "^22.5.0",
-    "typescript": "^5.5.4"
+    "@types/node": "^26.4.1",
+    "tsx": "^4.23.13",
+    "typescript": "^7.0.2"
   }
 }

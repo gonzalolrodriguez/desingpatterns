@@ -1,53 +1,46 @@
-import { Empleado, EmpleadoFijo } from "./ej3.ts";
-
-class EmpleadoPorHoras extends Empleado {
-  private horasTrabajadas: number;
-  private valorHora: number;
-
-  constructor(nombre: string, antiguedad: number, horasTrabajadas: number, valorHora: number) {
-    super(nombre, antiguedad);
-    this.horasTrabajadas = horasTrabajadas;
-    this.valorHora = valorHora;
-  }
-
-  calcularSueldo(): number {
-    return this.horasTrabajadas * this.valorHora;
-  }
+interface IInventario {
+  agregarEquipo(nombre: string, tipo: string, estado: string): void;
+  listarEquipos(): any[];
 }
 
-class EmpleadoPorComision extends Empleado {
-  private ventasDelMes: number;
-  private porcentajeComision: number;
+class InventarioViejo {
+  private items: { nombre: string; tipo: string; estado: string }[] = [];
 
-  constructor(nombre: string, antiguedad: number, ventasDelMes: number, porcentajeComision: number) {
-    super(nombre, antiguedad);
-    this.ventasDelMes = ventasDelMes;
-    this.porcentajeComision = porcentajeComision;
+  public agregarItem(item: {
+    nombre: string;
+    tipo: string;
+    estado: string;
+  }): void {
+    this.items.push(item);
   }
 
-  calcularSueldo(): number {
-    return this.ventasDelMes * (this.porcentajeComision / 100);
+  public obtenerItems(): { nombre: string; tipo: string; estado: string }[] {
+    return this.items;
   }
 }
 
-function calcularNomina(empleados: Empleado[]): number {
-  return empleados.reduce((total, emp) => total + emp.calcularSueldo(), 0);
+class AdaptadorInventario implements IInventario {
+  private inventarioViejo: InventarioViejo;
+
+  constructor(inventarioViejo: InventarioViejo) {
+    this.inventarioViejo = inventarioViejo;
+  }
+
+  public agregarEquipo(nombre: string, tipo: string, estado: string): void {
+    const nuevoItem = { nombre, tipo, estado };
+    this.inventarioViejo.agregarItem(nuevoItem);
+  }
+
+  // Mapea la llamada de listar equipos
+  public listarEquipos(): any[] {
+    return this.inventarioViejo.obtenerItems();
+  }
 }
 
-// Bloque de prueba
-console.log("--- Pruebas Ejercicio 4 ---");
+const inventarioViejo = new InventarioViejo();
+const adaptador = new AdaptadorInventario(inventarioViejo);
+adaptador.agregarEquipo("Servidor Dell", "Servidor", "disponible");
+console.log(adaptador.listarEquipos());
+// [{ nombre: "Servidor Dell", tipo: "Servidor", estado: "disponible" }]
 
-const nomina: Empleado[] = [
-  new EmpleadoFijo("Ana", 5, 80000),             // 80000 + (80000 * 0.02 * 5) = 80000 + 8000 = 88000
-  new EmpleadoPorHoras("Carlos", 2, 120, 800),   // 120 * 800 = 96000
-  new EmpleadoPorComision("Luis", 4, 1500000, 5) // 1500000 * 0.05 = 75000
-];
-
-console.log("Describiendo empleados y sus sueldos:");
-for (const emp of nomina) {
-  console.log(emp.describir());
-  console.log(`Sueldo calculado: $${emp.calcularSueldo()}`);
-}
-
-const totalNomina = calcularNomina(nomina);
-console.log(`\nTotal Nómina a pagar: $${totalNomina}`); // 88000 + 96000 + 75000 = 259000
+export {};
