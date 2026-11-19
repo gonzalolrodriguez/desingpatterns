@@ -56,10 +56,8 @@ class CuentaBancaria {
     return this.saldo;
   }
 
-  // Devolvemos una copia superficial (deep copy de los objetos si se requiere, pero estructurando nuevos objetos de tipo Movimiento)
-  // para evitar exponer la referencia del arreglo original y de sus objetos internos mutables.
   obtenerHistorial(): Movimiento[] {
-    return this.historial.map(mov => ({ ...mov }));
+    return this.historial.map(mov => ({ ...mov, fecha: new Date(mov.fecha) }));
   }
 }
 

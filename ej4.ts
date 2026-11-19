@@ -46,6 +46,7 @@ const nomina: Empleado[] = [
 console.log("Describiendo empleados y sus sueldos:");
 for (const emp of nomina) {
   console.log(emp.describir());
+  console.log(`Sueldo calculado: $${emp.calcularSueldo()}`);
 }
 
 const totalNomina = calcularNomina(nomina);

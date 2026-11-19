@@ -1,4 +1,4 @@
-export abstract class Empleado {
+export class Empleado {
   protected nombre: string;
   protected antiguedad: number;
 
@@ -7,7 +7,9 @@ export abstract class Empleado {
     this.antiguedad = antiguedad;
   }
 
-  abstract calcularSueldo(): number;
+  calcularSueldo(): number {
+    return 0;
+  }
 
   describir(): string {
     return `${this.nombre} (${this.antiguedad} años) — sueldo: $${this.calcularSueldo()}`;
